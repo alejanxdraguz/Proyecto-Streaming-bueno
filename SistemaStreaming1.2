@@ -1,0 +1,105 @@
+Proceso SistemaStreaming
+	
+	Definir opcion Como Entero
+	Definir tipo, clasificacion, produccion Como Cadena
+	Definir duracion, hora Como Entero
+	Definir valido Como Logico
+	
+	Definir totalEvaluados Como Entero
+	Definir publicados Como Entero
+	Definir rechazados Como Entero
+	Definir revision Como Entero
+	
+	totalEvaluados <- 0
+	publicados <- 0
+	rechazados <- 0
+	revision <- 0
+	
+	Repetir
+		
+		Escribir "MENU"
+		Escribir "1. Evaluar contenido"
+		Escribir "2. Mostrar reglas"
+		Escribir "3. Mostrar estadisticas"
+		Escribir "4. Reiniciar estadisticas"
+		Escribir "5. Salir"
+		
+		Leer opcion
+		
+		Si opcion = 1 Entonces
+			
+			Escribir "Tipo (pelicula, serie, documental, evento)"
+			Leer tipo
+			
+			Escribir "Duracion en minutos"
+			Leer duracion
+			
+			Escribir "Clasificacion (tp, +13, +18)"
+			Leer clasificacion
+			
+			Escribir "Hora (0-23)"
+			Leer hora
+			
+			Escribir "Produccion (bajo, medio, alto)"
+			Leer produccion
+			
+			valido <- Verdadero
+			
+			Si tipo = "pelicula" Entonces
+				Si duracion < 60 O duracion > 180 Entonces
+					valido <- Falso
+				FinSi
+			FinSi
+			
+			Si tipo = "serie" Entonces
+				Si duracion < 20 O duracion > 90 Entonces
+					valido <- Falso
+				FinSi
+			FinSi
+			
+			Si tipo = "documental" Entonces
+				Si duracion < 30 O duracion > 120 Entonces
+					valido <- Falso
+				FinSi
+			FinSi
+			
+			Si clasificacion = "+13" Entonces
+				Si hora < 6 O hora > 22 Entonces
+					valido <- Falso
+				FinSi
+			FinSi
+			
+			Si clasificacion = "+18" Entonces
+				Si No (hora >= 22 O hora <= 5) Entonces
+					valido <- Falso
+				FinSi
+			FinSi
+			
+			totalEvaluados <- totalEvaluados + 1
+			
+			Si valido = Falso Entonces
+				
+				Escribir "DECISION: RECHAZAR"
+				rechazados <- rechazados + 1
+				
+			SiNo
+				
+				Si produccion = "alto" O duracion > 120 O hora >= 20 Entonces
+					
+					Escribir "DECISION: ENVIAR A REVISION"
+					revision <- revision + 1
+					
+				SiNo
+					
+					Escribir "DECISION: PUBLICAR"
+					publicados <- publicados + 1
+					
+				FinSi
+				
+			FinSi
+			
+		FinSi
+		
+	Hasta Que opcion = 5
+	
+FinProceso
